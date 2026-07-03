@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<div class="inicio">
+
+    <h1>Ink & Dreams ✨</h1>
+    <p>Encontre romances, fantasias e suas próximas leituras favoritas.</p>
+    <img src="{{ url_for('static', filename='imagens/banner.png') }}" class="banner">
+    <br><br>
+    <a href="/login">
+        <button>Entrar</button>
+    </a>
+    <a href="/cadastro">
+        <button>Cadastrar</button>
+    </a>
+
+</div>
+
+{% endblock %}

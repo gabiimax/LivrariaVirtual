@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<h1 class="titulo">Finalizar Compra 🛒</h1>
+
+<div class="livros">
+
+    {% for item in carrinho %}
+
+    <div class="card">
+        <h3>{{ item.titulo }}</h3>
+        <p>{{ item.autor }}</p>
+        <p>R$ {{ item.preco }}</p>
+
+    {% endfor %}
+
+</div>
+
+<h2 class="total">
+    Total: R$ {{ total }}
+</h2>
+
+<div class="finalizar">
+
+    <a href="/pagar">
+        <button>
+            Pagar com Mercado Pago
+        </button>
+    </a>
+
+</div>
+
+{% endblock %}

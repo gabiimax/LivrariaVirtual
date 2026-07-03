@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin - Ink & Dreams</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f2f9;
+        }
+
+        header {
+            background: #d63384;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color:  #ff66b3;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #ff66b3;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background:  #ff66b3;
+        }
+
+        .info {
+            font-size: 14px;
+            color: #d63384;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background:  #fff0f7;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .danger {
+            background:  #fff0f7;
+        }
+
+        .lista {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    👑 Painel Administrativo - Ink & Dreams
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Adicionar Livro</h2>
+
+        <div class="info">
+            Use este painel para cadastrar novos livros no catálogo.
+        </div>
+
+        <form action="/adicionar_livro" method="POST" enctype="multipart/form-data"></form>
+            <input name="titulo" placeholder="Título do livro" required>
+            <input name="autor" placeholder="Autor" required>
+            <input name="genero" placeholder="Gênero" required>
+            <input name="preco" placeholder="Preço (ex: 29.90)" required>
+
+            <button type="submit">Adicionar Livro</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Status do Sistema</h2>
+
+        {% if usuario and usuario.is_admin %}
+            <p>Usuário logado: <b>{{ usuario.nome }}</b></p>
+            <span class="badge">ADMIN ATIVO</span>
+        {% else %}
+            <span class="badge danger">ACESSO NEGADO</span>
+        {% endif %}
+
+        <hr>
+
+        <h3>Controle</h3>
+        <div class="lista">
+            ✔ Adicionar livros ao catálogo<br>
+            ✔ Gerenciar loja<br>
+            ✔ Ver sistema como administrador
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

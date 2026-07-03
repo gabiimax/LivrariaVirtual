@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<h1 class="titulo">Catálogo de Livros</h1>
+
+<!-- BARRA DE PESQUISA -->
+<div class="pesquisa">
+
+    <form action="/pesquisa" method="GET">
+
+        <input 
+            type="text"
+            name="livro"
+            placeholder="🔍 Pesquise por livros ou autores"
+        >
+
+        <button type="submit">
+            Pesquisar
+        </button>
+
+    </form>
+
+</div>
+
+<!-- CARDS -->
+<div class="livros">
+
+    {% for livro in livros %}
+
+    <div class="card">
+
+        <img src="{{ url_for('static', filename='imagens/' + livro.imagem) }}">
+
+        <div class="card-info">
+
+            <h3>{{ livro.titulo }}</h3>
+
+            <p class="autor">
+                {{ livro.autor }}
+            </p>
+
+            <p class="preco">
+                R$ {{ livro.preco }}
+            </p>
+
+            <form action="/adicionar_carrinho/{{ livro.titulo }}" method="GET">
+
+                <div class="opcoes">
+
+                    <label>
+                        <input type="radio" name="formato" value="comum" checked>
+                        Comum
+                    </label>
+
+                    <label>
+                        <input type="radio" name="formato" value="dura">
+                        Dura
+                    </label>
+
+                    <label>
+                        <input type="radio" name="formato" value="ebook">
+                        Ebook
+                    </label>
+
+                </div>
+
+                <button class="btn-comprar">
+                    🛒 Comprar
+                </button>
+
+            </form>
+
+            <a class="fav" href="/favoritar/{{ livro.titulo }}">
+                ❤️ Favoritar
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

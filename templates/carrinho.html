@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<h1 class="titulo">Meu Carrinho 🛒</h1>
+
+<div class="livros">
+
+{% for item in carrinho %}
+
+<div class="card">
+
+    <img src="{{ url_for('static',
+    filename='imagens/' + item['imagem']) }}">
+
+    <div class="card-info">
+
+        <h3>{{ item["titulo"] }}</h3>
+
+        <p class="autor">
+            {{ item["autor"] }}
+        </p>
+
+        <p>
+
+            Formato:
+
+            {% if item["formato"] == "capa_comum" %}
+                Capa comum 📖
+
+            {% elif item["formato"] == "capa_dura" %}
+                Capa dura ✨
+
+            {% elif item["formato"] == "ebook" %}
+                Ebook 📱
+
+            {% endif %}
+
+        </p>
+
+        <p class="preco">
+            R$ {{ item["preco"] }}
+        </p>
+
+        <a href="/remover_carrinho/{{ item['titulo'] }}">
+            <button>
+                ❌ Remover
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<div class="total">
+    Total: R$ {{ total }}
+</div>
+
+<div class="finalizar">
+
+    <a href="/checkout">
+
+        <button>
+            Finalizar Compra 💖
+        </button>
+
+    </a>
+
+</div>
+
+{% endblock %}

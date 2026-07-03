@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagamento - Mercado Pago</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+.caixa{
+    width: 400px;
+    margin: auto;
+    margin-top: 80px;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px lightgray;
+}
+
+input{
+    width: 90%;
+    padding: 10px;
+    margin: 10px;
+}
+
+button{
+    background: #00b1ea;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 95%;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.escondido{
+    display: none;
+}
+
+.codigo-pix{
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-family: monospace;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="caixa">
+
+<h2>Mercado Pago</h2>
+
+<p>Total: R$ {{ total }}</p>
+
+<h3>Escolha o pagamento:</h3>
+
+<select id="pagamento" onchange="mudarForma()">
+    <option value="pix">Pix</option>
+    <option value="debito">Débito</option>
+    <option value="credito">Crédito</option>
+</select>
+
+<!-- PIX -->
+<div id="pix">
+
+    <h3>Pix QR Code</h3>
+
+    <img
+    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PIX-INK-DREAMS-123456"
+    >
+
+    <div class="codigo-pix">
+        PIX-INK-DREAMS-123456
+    </div>
+
+</div>
+
+<!-- CARTÃO -->
+<div id="cartao" class="escondido">
+
+    <input placeholder="Número do cartão">
+    <input placeholder="Nome do titular">
+    <input placeholder="MM/AA">
+    <input placeholder="CVV">
+
+</div>
+
+<br>
+
+<a href="/confirmar_compra">
+    <button>Pagar agora</button>
+</a>
+
+</div>
+
+<script>
+
+function mudarForma(){
+
+    let forma = document.getElementById("pagamento").value;
+
+    let pix = document.getElementById("pix");
+    let cartao = document.getElementById("cartao");
+
+    if(forma == "pix"){
+        pix.style.display = "block";
+        cartao.style.display = "none";
+    }
+
+    else{
+        pix.style.display = "none";
+        cartao.style.display = "block";
+    }
+}
+
+mudarForma();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<h1 class="titulo">Meus Favoritos ❤️</h1>
+<div class="livros">
+
+    {% for livro in favoritos %}
+    <div class="card">
+        <img src="{{ url_for('static', filename='imagens/' + livro.imagem) }}"
+             alt="{{ livro.titulo }}">
+        <h3>{{ livro.titulo }}</h3>
+        <p>{{ livro.autor }}</p>
+        <p>R$ {{ livro.preco }}</p>
+        <a href="/adicionar_carrinho/{{ livro.titulo }}">
+            <button>Adicionar ao carrinho 🛒</button>
+        </a>
+
+        <a href="/remover_favorito/{{ livro.titulo }}">
+            <button>Remover ❌</button>
+        </a>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

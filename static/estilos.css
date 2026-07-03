@@ -1,0 +1,359 @@
+body{
+    font-family:'Playfair Display', serif;
+    background:#fff0f7;
+    color:#5c3a4a;
+}
+
+nav{
+    background:#f5a6cd;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:35px;
+    padding:20px;
+    box-shadow:0 3px 15px rgba(214,51,132,.15);
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+}
+
+nav a:hover{
+    color:#d63384;
+}
+
+.titulo{
+    text-align:center;
+    color:#d63384;
+    font-family:'Playfair Display',serif;
+    font-size:42px;
+    margin:40px 0;
+}
+
+.inicio{
+    text-align:center;
+    padding:60px 20px;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+.inicio p{
+    font-size:22px;
+    color:#c65b93;
+    margin-bottom:30px;
+}
+
+.card{
+    width:100%;
+    max-width:260px;
+
+    background:white;
+    border-radius:20px;
+    padding:15px;
+
+    text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    overflow:hidden;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.capa{
+    width:180px;
+    height:260px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.preco{
+    color:#d63384;
+    font-size:22px;
+    font-weight:bold;
+    margin:15px 0;
+}
+
+
+button{
+    background:#ff66b3;
+    color:white;
+    border:none;
+    border-radius:25px;
+    padding:10px 18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#d63384;
+}
+
+.btn-card{
+    display:block;
+    text-decoration:none;
+    background:#ff66b3;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    margin-top:10px;
+    font-weight:600;
+}
+
+.btn-card:hover{
+    background:#d63384;
+}
+
+.login-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.login-card{
+    width:400px;
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(214,51,132,.15);
+}
+
+.pesquisa{
+    display:flex;
+    justify-content:center;
+    margin:35px;
+}
+
+.pesquisa form{
+    display:flex;
+    gap:10px;
+}
+
+.pesquisa input{
+    width:500px;
+    max-width:80vw;
+    padding:15px 20px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    outline:none;
+    box-shadow:0 5px 15px rgba(214,51,132,.12);
+    font-size:15px;
+}
+
+.pesquisa button{
+    border:none;
+    padding:15px 25px;
+    border-radius:30px;
+    background:#ff66b3;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.pesquisa button:hover{
+    background:#d63384;
+}
+
+.livros{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:40px;
+
+    justify-items:center;
+}
+
+.total{
+    text-align:center;
+    font-size:32px;
+    color:#d63384;
+}
+
+.finalizar{
+    text-align:center;
+    margin:30px;
+}
+
+footer{
+    background:#ffb6d9;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.banner{
+    max-width:900px;
+    height:300px;
+}
+
+.auth-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#fff0f7;
+}
+
+.auth-card{
+    width:380px;
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(214,51,132,.15);
+}
+
+.auth-title{
+    font-size:34px;
+    color:#d63384;
+    font-family:'Playfair Display',serif;
+    margin-bottom:5px;
+}
+
+.auth-subtitle{
+    color:#c65b93;
+    margin-bottom:25px;
+}
+
+.auth-card input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:12px;
+    background:#fff5fa;
+    outline:none;
+}
+
+.auth-card input:focus{
+    box-shadow:0 0 0 2px #ff66b3;
+}
+
+.auth-card button{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:#ff66b3;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.auth-card button:hover{
+    background:#d63384;
+}
+
+.auth-link{
+    margin-top:15px;
+    font-size:14px;
+}
+
+.auth-link a{
+    color:#d63384;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.card img{
+    width:100%;
+    height:340px;     
+    object-fit:cover;
+
+    border-radius:10px; 
+    display:block;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(214,51,132,.10);
+    transition: 0.25s;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(214,51,132,.18);
+}
+
+.card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 15px;
+}
+
+.card-info h3 {
+    color: #d63384;
+    margin: 8px 0;
+}
+
+.autor {
+    font-size: 14px;
+    color: #c65b93;
+}
+
+.preco {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d63384;
+    margin: 10px 0;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.opcoes label {
+    font-size: 12px;
+    background: #fff0f7;
+    padding: 5px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-comprar {
+    background: #ff66b3;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-comprar:hover {
+    background: #d63384;
+}
+
+.fav {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #d63384;
+    text-decoration: none;
+}
+
+.fav:hover {
+    text-decoration: underline;
+}

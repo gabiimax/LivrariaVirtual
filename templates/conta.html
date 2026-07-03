@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<div class="auth-container">
+<div class="auth-card">
+<h2 class="auth-title">Minha Conta 💖</h2>
+<img src="{{ url_for('static', filename='profiles/' + usuario.profile_pic) }}"
+width="120"
+style="border-radius:50%; margin-bottom:20px;">
+
+<p><b>Nome:</b> {{ usuario.nome }}</p>
+<p><b>Email:</b> {{ usuario.email }}</p>
+
+<hr><br>
+
+<form action="/editar_nome" method="POST">
+    <input
+    name="nome"
+    placeholder="Novo nome">
+    <button type="submit">
+        Salvar nome
+    </button>
+</form>
+
+<br>
+<form action="/alterar_senha" method="POST">
+    <input
+    type="password"
+    name="senha_atual"
+    placeholder="Senha atual">
+    <input
+    type="password"
+    name="nova_senha"
+    placeholder="Nova senha">
+
+    <button type="submit">
+        Trocar senha
+    </button>
+
+</form>
+
+<br>
+
+<form
+action="/upload_foto"
+method="POST"
+enctype="multipart/form-data">
+
+    <input
+    type="file"
+    name="foto">
+
+    <button type="submit">
+        Trocar foto
+    </button>
+
+</form>
+<br>
+
+<a href="/logout">
+<button>Sair da conta</button>
+</a>
+
+</div>
+</div>
+
+{% endblock %}

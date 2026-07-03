@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ink & Dreams</title>
+
+     <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+
+<body>
+
+<nav>
+    <a href="/">Início</a>
+    <a href="/catalogo">Catálogo</a>
+    <a href="/favoritos">Favoritos</a>
+    <a href="/carrinho">Carrinho</a>
+    <a href="/conta">Minha Conta</a>
+</nav>
+
+{% block conteudo %}
+{% endblock %}
+
+{% if usuario and usuario.is_admin %}
+<a href="/admin">Painel Admin</a>
+{% endif %}
+
+<footer>
+    Ink & Dreams © 2026
+</footer>
+
+</body>
+</html>

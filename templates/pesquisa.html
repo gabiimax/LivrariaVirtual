@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<h1 class="titulo">
+    Resultado da pesquisa
+</h1>
+<div class="livros-container">
+
+{% if livros %}
+
+    {% for livro in livros %}
+
+    <div class="card">
+        <img src="{{ url_for('static',
+        filename='imagens/' + livro.imagem) }}">
+        <h3>{{livro.titulo}}</h3>
+        <p>{{livro.autor}}</p>
+        <p>{{livro.genero}}</p>
+        <h4>R$ {{livro.preco}}</h4>
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+<h2>Nenhum livro encontrado</h2>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

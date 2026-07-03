@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block conteudo %}
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <h1 class="auth-title">Ink & Dreams</h1>
+        <p class="auth-subtitle">Crie sua conta</p>
+
+        <form method="POST">
+            <input 
+                type="text" 
+                name="nome"
+                placeholder="Digite seu nome"
+                required>
+            <input 
+                type="email" 
+                name="email"
+                placeholder="Digite seu email"
+                required>
+            <input 
+                type="password" 
+                name="senha"
+                placeholder="Crie uma senha"
+                required>
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <p class="auth-link">
+            Já possui uma conta?
+            <a href="/login">Fazer login</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
