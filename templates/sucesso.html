@@ -1,17 +1,38 @@
 {% extends "layout.html" %}
 
+{% block titulo %}
+Compra realizada | Ink & Dreams
+{% endblock %}
+
 {% block conteudo %}
 
-<h1 class="titulo">Compra realizada com sucesso! 🎉</h1>
+<section class="sucesso-page">
 
-<p style="text-align:center;">
-    Seu pedido foi processado e já está sendo preparado 📦
-</p>
+<div class="sucesso-card">
 
-<div class="finalizar">
-    <a href="/catalogo">
-        <button>Voltar para loja</button>
-    </a>
+    <div class="sucesso-icone">✓</div>
+
+    <span class="sucesso-label">INK & DREAMS</span>
+
+    <h1>Compra realizada com sucesso!</h1>
+
+    <p class="sucesso-destaque">
+        Seu pedido foi processado e já está sendo preparado.
+    </p>
+
+    <p class="sucesso-texto">
+        Obrigado pela sua compra. Esperamos que sua próxima leitura
+        seja uma história inesquecível. 📖
+    </p>
+
+    <div class="sucesso-acoes">
+        <a href="{{ url_for('catalogo_livros') }}" class="botao-sucesso">
+            Voltar para a loja
+        </a>
+    </div>
+
 </div>
+
+</section>
 
 {% endblock %}

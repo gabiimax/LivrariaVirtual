@@ -1,68 +1,173 @@
 {% extends "layout.html" %}
 
+{% block titulo %}
+Minha Conta | Ink & Dreams
+{% endblock %}
+
 {% block conteudo %}
 
-<div class="auth-container">
-<div class="auth-card">
-<h2 class="auth-title">Minha Conta 💖</h2>
-<img src="{{ url_for('static', filename='profiles/' + usuario.profile_pic) }}"
-width="120"
-style="border-radius:50%; margin-bottom:20px;">
+<section class="conta-page">
 
-<p><b>Nome:</b> {{ usuario.nome }}</p>
-<p><b>Email:</b> {{ usuario.email }}</p>
+    <div class="conta-header">
+        <span class="conta-label">INK & DREAMS</span>
+        <h1>Minha conta</h1>
+        <p>Gerencie suas informações e preferências.</p>
+    </div>
 
-<hr><br>
+    <div class="conta-container">
 
-<form action="/editar_nome" method="POST">
-    <input
-    name="nome"
-    placeholder="Novo nome">
-    <button type="submit">
-        Salvar nome
-    </button>
-</form>
+        <!-- PERFIL -->
+        <div class="conta-card perfil-card">
 
-<br>
-<form action="/alterar_senha" method="POST">
-    <input
-    type="password"
-    name="senha_atual"
-    placeholder="Senha atual">
-    <input
-    type="password"
-    name="nova_senha"
-    placeholder="Nova senha">
+            <div class="perfil-foto">
+                <img
+                    src="{{ url_for('static', filename='profiles/' + usuario.profile_pic) }}"
+                    alt="Foto de perfil de {{ usuario.nome }}"
+                >
+            </div>
 
-    <button type="submit">
-        Trocar senha
-    </button>
+            <div class="perfil-info">
+                <span class="perfil-label">PERFIL</span>
 
-</form>
+                <h2>{{ usuario.nome }}</h2>
 
-<br>
+                <p>{{ usuario.email }}</p>
+            </div>
 
-<form
-action="/upload_foto"
-method="POST"
-enctype="multipart/form-data">
+        </div>
 
-    <input
-    type="file"
-    name="foto">
 
-    <button type="submit">
-        Trocar foto
-    </button>
+        <!-- ALTERAR NOME -->
+        <div class="conta-card">
 
-</form>
-<br>
+            <div class="card-titulo">
+                <span class="card-icone">✦</span>
 
-<a href="/logout">
-<button>Sair da conta</button>
-</a>
+                <div>
+                    <h2>Informações pessoais</h2>
+                    <p>Atualize o nome exibido na sua conta.</p>
+                </div>
+            </div>
 
-</div>
-</div>
+            <form action="/editar_nome" method="POST" class="conta-form">
+
+                <label for="nome">Novo nome</label>
+
+                <input
+                    id="nome"
+                    name="nome"
+                    type="text"
+                    placeholder="Digite seu novo nome"
+                    value="{{ usuario.nome }}"
+                    required
+                >
+
+                <button type="submit" class="btn-principal">
+                    Salvar alterações
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ALTERAR SENHA -->
+        <div class="conta-card">
+
+            <div class="card-titulo">
+                <span class="card-icone">⌑</span>
+
+                <div>
+                    <h2>Segurança</h2>
+                    <p>Altere sua senha para manter sua conta protegida.</p>
+                </div>
+            </div>
+
+            <form action="/alterar_senha" method="POST" class="conta-form">
+
+                <label for="senha_atual">Senha atual</label>
+
+                <input
+                    id="senha_atual"
+                    type="password"
+                    name="senha_atual"
+                    placeholder="Digite sua senha atual"
+                    required
+                >
+
+                <label for="nova_senha">Nova senha</label>
+
+                <input
+                    id="nova_senha"
+                    type="password"
+                    name="nova_senha"
+                    placeholder="Digite sua nova senha"
+                    required
+                >
+
+                <button type="submit" class="btn-principal">
+                    Alterar senha
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- FOTO -->
+        <div class="conta-card">
+
+            <div class="card-titulo">
+                <span class="card-icone">◇</span>
+
+                <div>
+                    <h2>Foto de perfil</h2>
+                    <p>Escolha uma nova imagem para sua conta.</p>
+                </div>
+            </div>
+
+            <form
+                action="/upload_foto"
+                method="POST"
+                enctype="multipart/form-data"
+                class="conta-form"
+            >
+
+                <label for="foto">Nova foto</label>
+
+                <input
+                    id="foto"
+                    type="file"
+                    name="foto"
+                    accept="image/*"
+                    required
+                >
+
+                <button type="submit" class="btn-principal">
+                    Atualizar foto
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- SAIR -->
+        <div class="conta-sair">
+
+            <div>
+                <h2>Sair da conta</h2>
+                <p>Você poderá entrar novamente quando quiser.</p>
+            </div>
+
+            <a href="/logout" class="btn-sair">
+                Sair da conta
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

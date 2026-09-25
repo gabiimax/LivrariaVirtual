@@ -1,140 +1,833 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
-    <title>Painel Admin - Ink & Dreams</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Ink & Dreams</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f7f2f9;
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #f5efe3;
+        color: #211b18;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    /* =========================
+       LAYOUT
+    ========================= */
+
+    .admin-layout {
+        min-height: 100vh;
+        display: flex;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+        width: 250px;
+        min-height: 100vh;
+        background: #4a1822;
+        color: #f5efe3;
+        padding: 35px 25px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .logo {
+        text-decoration: none;
+        color: #f5efe3;
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+        margin-bottom: 55px;
+    }
+
+    .logo-principal {
+        font-family: 'Playfair Display', serif;
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    .logo-subtitulo {
+        margin-top: 7px;
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: #c9a45c;
+    }
+
+    .menu-titulo {
+        color: #a98b8e;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .menu a {
+        color: #dfceca;
+        text-decoration: none;
+        padding: 13px 14px;
+        font-size: 14px;
+        border-left: 2px solid transparent;
+        transition: 0.25s ease;
+    }
+
+    .menu a:hover,
+    .menu a.ativo {
+        color: #f5efe3;
+        background: rgba(255,255,255,0.07);
+        border-left-color: #c9a45c;
+    }
+
+    .sidebar-final {
+        margin-top: auto;
+        border-top: 1px solid rgba(201,164,92,0.25);
+        padding-top: 20px;
+    }
+
+    .voltar {
+        color: #c9a45c;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .voltar:hover {
+        text-decoration: underline;
+    }
+
+    /* =========================
+       CONTEÚDO
+    ========================= */
+
+    .conteudo-admin {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+        padding: 45px 55px;
+    }
+
+    .topo-admin {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 40px;
+    }
+
+    .topo-admin small {
+        color: #8b6b32;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2px;
+    }
+
+    .topo-admin h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 42px;
+        font-weight: 600;
+        color: #4a1822;
+        margin-top: 8px;
+    }
+
+    .admin-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #5f5149;
+        font-size: 13px;
+    }
+
+    .status-ponto {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #6d8b54;
+    }
+
+    /* =========================
+       CARDS DE RESUMO
+    ========================= */
+
+    .resumo {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 35px;
+    }
+
+    .resumo-card {
+        background: #fffdf8;
+        border: 1px solid #ded4c5;
+        padding: 25px;
+    }
+
+    .resumo-card span {
+        color: #8b7b70;
+        font-size: 12px;
+    }
+
+    .resumo-card strong {
+        display: block;
+        margin-top: 8px;
+        font-family: 'Playfair Display', serif;
+        color: #4a1822;
+        font-size: 30px;
+    }
+
+    .resumo-card small {
+        display: block;
+        margin-top: 5px;
+        color: #8b6b32;
+        font-size: 11px;
+    }
+
+    /* =========================
+       GRID PRINCIPAL
+    ========================= */
+
+    .painel-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 0.8fr;
+        gap: 25px;
+    }
+
+    .card {
+        background: #fffdf8;
+        border: 1px solid #ded4c5;
+        padding: 30px;
+    }
+
+    .card-cabecalho {
+        border-bottom: 1px solid #ded4c5;
+        padding-bottom: 18px;
+        margin-bottom: 25px;
+    }
+
+    .card-cabecalho h2 {
+        font-family: 'Playfair Display', serif;
+        color: #4a1822;
+        font-size: 25px;
+        font-weight: 600;
+    }
+
+    .card-cabecalho p {
+        color: #75665d;
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    /* =========================
+       FORMULÁRIO
+    ========================= */
+
+    .form-grupo {
+        margin-bottom: 17px;
+    }
+
+    .form-grupo label {
+        display: block;
+        color: #4a1822;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    .form-grupo input {
+        width: 100%;
+        padding: 13px 14px;
+        background: #f5efe3;
+        border: 1px solid #d8cbb8;
+        outline: none;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 14px;
+        color: #211b18;
+        transition: 0.2s ease;
+    }
+
+    .form-grupo input:focus {
+        border-color: #b08a4a;
+        background: #fffdf8;
+    }
+
+    .arquivo {
+        background: #f5efe3 !important;
+        padding: 10px !important;
+    }
+
+    .botao-adicionar {
+        width: 100%;
+        margin-top: 8px;
+        padding: 14px;
+        border: 1px solid #4a1822;
+        background: #4a1822;
+        color: #f5efe3;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s ease;
+    }
+
+    .botao-adicionar:hover {
+        background: transparent;
+        color: #4a1822;
+    }
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .usuario-admin {
+        padding: 20px;
+        background: #f5efe3;
+        border-left: 3px solid #b08a4a;
+        margin-bottom: 25px;
+    }
+
+    .usuario-admin span {
+        display: block;
+        color: #8b7b70;
+        font-size: 11px;
+        margin-bottom: 5px;
+    }
+
+    .usuario-admin strong {
+        color: #4a1822;
+        font-size: 16px;
+    }
+
+    .badge {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 6px 10px;
+        background: #4a1822;
+        color: #f5efe3;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .funcoes {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .funcao {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e4dbcf;
+        color: #5f5149;
+        font-size: 13px;
+    }
+
+    .funcao:last-child {
+        border-bottom: none;
+    }
+
+    .check {
+        color: #8b6b32;
+        font-weight: bold;
+    }
+
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    /* =========================
+   GRÁFICOS
+========================= */
+
+.graficos-admin {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.grafico-card {
+    min-height: 400px;
+}
+
+.grafico-card canvas {
+    max-height: 300px;
+}
+
+
+/* O gráfico de livros mais bem avaliados
+   ocupa a largura inteira */
+
+.grafico-card:last-child {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================
+   RESPONSIVO DOS GRÁFICOS
+========================= */
+
+    @media (max-width: 900px) {
+
+        .graficos-admin {
+            grid-template-columns: 1fr;
         }
 
-        header {
-            background: #d63384;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
+        .grafico-card:last-child {
+            grid-column: auto;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+    }
+
+    @media (max-width: 1000px) {
+
+        .sidebar {
+            width: 210px;
         }
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .conteudo-admin {
+            margin-left: 210px;
+            width: calc(100% - 210px);
+            padding: 35px;
         }
 
-        h2 {
-            margin-top: 0;
-            color:  #ff66b3;
+        .painel-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 750px) {
+
+        .admin-layout {
+            display: block;
         }
 
-        input {
+        .sidebar {
+            position: relative;
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+            min-height: auto;
+            padding: 20px;
         }
 
-        button {
+        .logo {
+            margin-bottom: 25px;
+        }
+
+        .menu {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .menu a {
+            padding: 9px 12px;
+        }
+
+        .sidebar-final {
+            margin-top: 20px;
+        }
+
+        .conteudo-admin {
+            margin-left: 0;
             width: 100%;
-            padding: 12px;
-            border: none;
-            background: #ff66b3;
-            color: white;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 30px 20px;
         }
 
-        button:hover {
-            background:  #ff66b3;
+        .resumo {
+            grid-template-columns: 1fr;
         }
 
-        .info {
-            font-size: 14px;
-            color: #d63384;
-            margin-bottom: 10px;
+        .topo-admin {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background:  #fff0f7;
-            color: white;
-            border-radius: 20px;
-            font-size: 12px;
+        .topo-admin h1 {
+            font-size: 34px;
         }
+    }
 
-        .danger {
-            background:  #fff0f7;
-        }
+</style>
 
-        .lista {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-    </style>
 </head>
 
 <body>
 
-<header>
-    👑 Painel Administrativo - Ink & Dreams
-</header>
+<div class="admin-layout">
 
-<div class="container">
+<aside class="sidebar">
 
-    <div class="card">
-        <h2>Adicionar Livro</h2>
+    <a href="/" class="logo">
+        <span class="logo-principal">Ink & Dreams</span>
+        <span class="logo-subtitulo">LIVRARIA DIGITAL</span>
+    </a>
 
-        <div class="info">
-            Use este painel para cadastrar novos livros no catálogo.
-        </div>
+    <div class="menu-titulo">ADMINISTRAÇÃO</div>
 
-        <form action="/adicionar_livro" method="POST" enctype="multipart/form-data"></form>
-            <input name="titulo" placeholder="Título do livro" required>
-            <input name="autor" placeholder="Autor" required>
-            <input name="genero" placeholder="Gênero" required>
-            <input name="preco" placeholder="Preço (ex: 29.90)" required>
+    <nav class="menu">
+        <a href="/admin" class="ativo">Visão geral</a>
+        <a href="/catalogo">Catálogo</a>
+        <a href="/generos">Gêneros</a>
+        <a href="/conta">Minha conta</a>
+    </nav>
 
-            <button type="submit">Adicionar Livro</button>
-        </form>
+    <div class="sidebar-final">
+        <a href="/" class="voltar">← Voltar para a loja</a>
     </div>
 
-    <div class="card">
-        <h2>Status do Sistema</h2>
+</aside>
 
-        {% if usuario and usuario.is_admin %}
-            <p>Usuário logado: <b>{{ usuario.nome }}</b></p>
-            <span class="badge">ADMIN ATIVO</span>
-        {% else %}
-            <span class="badge danger">ACESSO NEGADO</span>
-        {% endif %}
 
-        <hr>
+<main class="conteudo-admin">
 
-        <h3>Controle</h3>
-        <div class="lista">
-            ✔ Adicionar livros ao catálogo<br>
-            ✔ Gerenciar loja<br>
-            ✔ Ver sistema como administrador
+    <div class="topo-admin">
+
+        <div>
+            <small>PAINEL ADMINISTRATIVO</small>
+            <h1>Visão geral</h1>
         </div>
+
+        <div class="admin-status">
+            <span class="status-ponto"></span>
+            Sistema online
+        </div>
+
     </div>
+
+
+    <section class="resumo">
+
+        <div class="resumo-card">
+            <span>Livros no catálogo</span>
+            <strong>{{ catalogo|length }}</strong>
+            <small>CATÁLOGO ATUAL</small>
+        </div>
+
+        <div class="resumo-card">
+            <span>Vendas realizadas</span>
+            <strong>{{ total_vendas }}</strong>
+            <small>TOTAL DE LIVROS VENDIDOS</small>
+        </div>
+
+        <div class="resumo-card">
+            <span>Faturamento</span>
+            <strong>R$ {{ "%.2f"|format(faturamento) }}</strong>
+            <small>VALOR TOTAL DAS VENDAS</small>
+        </div>
+
+    </section>
+
+
+<section class="graficos-admin">
+
+    <div class="card grafico-card">
+
+        <div class="card-cabecalho">
+            <h2>Livros mais vendidos</h2>
+            <p>Os livros com maior número de vendas.</p>
+        </div>
+
+        <canvas id="graficoVendas"></canvas>
+
+    </div>
+
+
+    <div class="card grafico-card">
+
+        <div class="card-cabecalho">
+            <h2>Gêneros preferidos</h2>
+            <p>Distribuição das vendas por gênero.</p>
+        </div>
+
+        <canvas id="graficoGeneros"></canvas>
+
+    </div>
+
+
+    <div class="card grafico-card">
+
+        <div class="card-cabecalho">
+            <h2>Livros mais bem avaliados</h2>
+            <p>Média das avaliações dos leitores.</p>
+        </div>
+
+        <canvas id="graficoAvaliacoes"></canvas>
+
+    </div>
+
+</section>
+
+
+<section class="painel-grid">
+
+    <div class="card">  
+
+
+        <div class="card">
+
+            <div class="card-cabecalho">
+                <h2>Adicionar novo livro</h2>
+                <p>Cadastre uma nova obra no catálogo da Ink & Dreams.</p>
+            </div>
+
+            <form action="/adicionar_livro" method="POST" enctype="multipart/form-data">
+
+                <div class="form-grupo">
+                    <label>TÍTULO</label>
+                    <input
+                        name="titulo"
+                        placeholder="Digite o título do livro"
+                        required
+                    >
+                </div>
+
+                <div class="form-grupo">
+                    <label>AUTOR</label>
+                    <input
+                        name="autor"
+                        placeholder="Nome do autor"
+                        required
+                    >
+                </div>
+
+                <div class="form-grupo">
+                    <label>GÊNERO</label>
+                    <input
+                        name="genero"
+                        placeholder="Ex.: Romance, Fantasia..."
+                        required
+                    >
+                </div>
+
+                <div class="form-grupo">
+                    <label>PREÇO</label>
+                    <input
+                        name="preco"
+                        placeholder="Ex.: 29,90"
+                        required
+                    >
+                </div>
+
+                <div class="form-grupo">
+                    <label>CAPA DO LIVRO</label>
+                    <input
+                        type="file"
+                        name="imagem"
+                        class="arquivo"
+                    >
+                </div>
+
+                <button type="submit" class="botao-adicionar">
+                    + Adicionar livro ao catálogo
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-cabecalho">
+                <h2>Acesso administrativo</h2>
+                <p>Informações sobre a sessão atual.</p>
+            </div>
+
+            {% if usuario and usuario.is_admin %}
+
+                <div class="usuario-admin">
+                    <span>ADMINISTRADOR CONECTADO</span>
+                    <strong>{{ usuario.nome }}</strong>
+
+                    <span class="badge">
+                        ADMIN ATIVO
+                    </span>
+                </div>
+
+            {% else %}
+
+                <div class="usuario-admin">
+                    <span>STATUS</span>
+                    <strong>Acesso não autorizado</strong>
+
+                    <span class="badge">
+                        ACESSO NEGADO
+                    </span>
+                </div>
+
+            {% endif %}
+
+
+            <div class="funcoes">
+
+                <div class="funcao">
+                    <span class="check">✓</span>
+                    Adicionar livros ao catálogo
+                </div>
+
+                <div class="funcao">
+                    <span class="check">✓</span>
+                    Gerenciar catálogo
+                </div>
+
+                <div class="funcao">
+                    <span class="check">✓</span>
+                    Visualizar a loja
+                </div>
+
+                <div class="funcao">
+                    <span class="check">✓</span>
+                    Administrar a plataforma
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
 
 </div>
+
+
+<script>
+
+    const livrosVendidos = {{ livros_mais_vendidos | tojson }};
+
+    const nomesLivros = livrosVendidos.map(
+        item => item[0]
+    );
+
+    const quantidadeVendas = livrosVendidos.map(
+        item => item[1]
+    );
+
+
+    new Chart(
+        document.getElementById("graficoVendas"),
+        {
+            type: "bar",
+
+            data: {
+                labels: nomesLivros,
+
+                datasets: [{
+                    label: "Vendas",
+                    data: quantidadeVendas
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        }
+    );
+
+
+    const generos = {{ generos_mais_vendidos | tojson }};
+
+    const nomesGeneros = generos.map(
+        item => item[0]
+    );
+
+    const quantidadeGeneros = generos.map(
+        item => item[1]
+    );
+
+
+    new Chart(
+        document.getElementById("graficoGeneros"),
+        {
+            type: "doughnut",
+
+            data: {
+                labels: nomesGeneros,
+
+                datasets: [{
+                    data: quantidadeGeneros
+                }]
+            },
+
+            options: {
+                responsive: true
+            }
+        }
+    );
+
+
+    const avaliados = {{ livros_bem_avaliados | tojson }};
+
+    const nomesAvaliados = avaliados.map(
+        item => item[0]
+    );
+
+    const medias = avaliados.map(
+        item => item[1]
+    );
+
+
+    new Chart(
+        document.getElementById("graficoAvaliacoes"),
+        {
+            type: "bar",
+
+            data: {
+                labels: nomesAvaliados,
+
+                datasets: [{
+                    label: "Média",
+                    data: medias
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 5
+                    }
+                }
+            }
+        }
+    );
+
+</script>
 
 </body>
 </html>

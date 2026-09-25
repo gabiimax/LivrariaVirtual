@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block titulo %}
+Conquistas | Ink & Dreams
+{% endblock %}
+
+{% block conteudo %}
+
+<section class="conquistas-page">
+
+    <div class="conquistas-header">
+
+        <span>INK & DREAMS</span>
+
+        <h1>Minhas Conquistas</h1>
+
+        <p>
+            Continue explorando a Ink & Dreams para desbloquear novas conquistas.
+        </p>
+
+        <div class="conquistas-progresso">
+            {{ desbloqueadas }} / {{ total }} conquistas desbloqueadas
+        </div>
+
+    </div>
+
+
+    <div class="conquistas-grid">
+
+        {% for conquista in conquistas %}
+
+        <div class="conquista-card {% if conquista.desbloqueada %}desbloqueada{% else %}bloqueada{% endif %}">
+
+            <div class="conquista-icone">
+                {% if conquista.desbloqueada %}
+                    ✦
+                {% else %}
+                    🔒
+                {% endif %}
+            </div>
+
+            <div class="conquista-conteudo">
+
+                <h2>
+                    {{ conquista.nome }}
+                </h2>
+
+                <p>
+                    {{ conquista.descricao }}
+                </p>
+
+                {% if conquista.desbloqueada %}
+
+                    <span class="conquista-status">
+                        ✓ Desbloqueada
+                    </span>
+
+                    <span class="conquista-recompensa">
+                        {{ conquista.recompensa }}
+                    </span>
+
+                {% else %}
+
+                    <span class="conquista-status">
+                        🔒 Bloqueada
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="sem-conquistas">
+
+            <div>◇</div>
+
+            <h2>Nenhuma conquista ainda</h2>
+
+            <p>
+                Adicione livros aos favoritos, faça compras
+                e deixe avaliações para desbloquear conquistas.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

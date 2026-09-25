@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+
+{% block titulo %}
+Seu livro ideal | Ink & Dreams
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="resultado-quiz">
+
+    <div class="resultado-cabecalho">
+
+        <p>SEU RESULTADO</p>
+
+        <h1>
+            Encontramos uma leitura para você
+        </h1>
+
+        <span>
+            Com base nas suas respostas, esta história combina com o seu perfil de leitor.
+        </span>
+
+    </div>
+
+
+    <section class="livro-recomendado">
+
+        <div class="resultado-capa">
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='imagens/' + livro.imagem
+                ) }}"
+                alt="Capa de {{ livro.titulo }}"
+            >
+
+        </div>
+
+
+        <div class="resultado-informacoes">
+
+            <p class="resultado-genero">
+                {{ livro.genero }}
+            </p>
+
+            <h2>
+                {{ livro.titulo }}
+            </h2>
+
+            <p class="resultado-autor">
+                por <strong>{{ livro.autor }}</strong>
+            </p>
+
+            <div class="linha-dourada"></div>
+
+            <p class="resultado-descricao">
+                {{ texto_resultado }}
+            </p>
+
+
+            <div class="resultado-preco">
+                R$ {{ "%.2f"|format(livro.preco)|replace(".", ",") }}
+            </div>
+
+
+            <div class="resultado-acoes">
+
+                <a
+                    href="{{ url_for(
+                        'pagina_livro',
+                        titulo=livro.titulo
+                    ) }}"
+                    class="btn-livro"
+                >
+                    Saber mais
+                </a>
+
+
+                <a
+                    href="{{ url_for(
+                        'favoritar',
+                        titulo=livro.titulo
+                    ) }}"
+                    class="btn-favorito"
+                >
+                    ♡ Favoritar
+                </a>
+
+
+                <a
+                    href="{{ url_for(
+                        'adicionar_carrinho',
+                        titulo=livro.titulo
+                    ) }}"
+                    class="btn-livro"
+                >
+                    Adicionar ao carrinho
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="novo-quiz">
+
+        <a href="{{ url_for('quiz') }}">
+            Refazer o quiz
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,34 +1,282 @@
 {% extends "layout.html" %}
 
+{% block titulo %}
+Finalizar compra | Ink & Dreams
+{% endblock %}
+
 {% block conteudo %}
 
-<h1 class="titulo">Finalizar Compra 🛒</h1>
+<section class="checkout-page">
 
-<div class="livros">
+    <div class="checkout-header">
+        <span>INK & DREAMS</span>
+        <h1>Finalizar compra</h1>
+        <p>Confira os itens do seu pedido e informe o endereço de entrega.</p>
+    </div>
 
-    {% for item in carrinho %}
 
-    <div class="card">
-        <h3>{{ item.titulo }}</h3>
-        <p>{{ item.autor }}</p>
-        <p>R$ {{ item.preco }}</p>
+    <div class="checkout-conteudo">
 
-    {% endfor %}
+        <!-- ==============================
+             ITENS DO PEDIDO
+        =============================== -->
 
-</div>
+        <div class="checkout-itens">
 
-<h2 class="total">
-    Total: R$ {{ total }}
-</h2>
+            {% for item in carrinho %}
 
-<div class="finalizar">
+            <div class="checkout-item">
 
-    <a href="/pagar">
-        <button>
-            Pagar com Mercado Pago
-        </button>
-    </a>
+                <div class="checkout-capa">
 
-</div>
+                    {% if item.imagem %}
+                        <img
+                            src="{{ url_for('static', filename='imagens/' + item.imagem) }}"
+                            alt="Capa de {{ item.titulo }}"
+                        >
+                    {% endif %}
+
+                </div>
+
+                <div class="checkout-info">
+
+                    <h2>{{ item.titulo }}</h2>
+
+                    <p>{{ item.autor }}</p>
+
+                    {% if item.quantidade %}
+                        <span>
+                            Quantidade: {{ item.quantidade }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="checkout-preco">
+                    R$ {{ "%.2f"|format(item.preco)|replace(".", ",") }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- ==============================
+             ENDEREÇO DE ENTREGA
+        =============================== -->
+
+        <div class="checkout-endereco">
+
+            <span class="resumo-label">
+                ENDEREÇO DE ENTREGA
+            </span>
+
+            <form method="POST" action="{{ url_for('checkout') }}">
+
+                <div class="campo-checkout">
+                    <label for="nome">Nome completo</label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite seu nome"
+                        required
+                    >
+                </div>
+
+
+                <div class="linha-campos">
+
+                    <div class="campo-checkout">
+                        <label for="cep">CEP</label>
+
+                        <input
+                            type="text"
+                            id="cep"
+                            name="cep"
+                            placeholder="00000-000"
+                            maxlength="9"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo-checkout">
+                        <label for="numero">Número</label>
+
+                        <input
+                            type="text"
+                            id="numero"
+                            name="numero"
+                            placeholder="123"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="campo-checkout">
+                    <label for="rua">Rua</label>
+
+                    <input
+                        type="text"
+                        id="rua"
+                        name="rua"
+                        placeholder="Nome da rua"
+                        required
+                    >
+                </div>
+
+
+                <div class="linha-campos">
+
+                    <div class="campo-checkout">
+                        <label for="bairro">Bairro</label>
+
+                        <input
+                            type="text"
+                            id="bairro"
+                            name="bairro"
+                            placeholder="Nome do bairro"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo-checkout">
+                        <label for="cidade">Cidade</label>
+
+                        <input
+                            type="text"
+                            id="cidade"
+                            name="cidade"
+                            placeholder="Nome da cidade"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="linha-campos">
+
+                    <div class="campo-checkout">
+                        <label for="estado">Estado</label>
+
+                        <select id="estado" name="estado" required>
+
+                            <option value="">
+                                Selecione
+                            </option>
+
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="GO">Goiás</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraíba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo-checkout">
+                        <label for="complemento">
+                            Complemento
+                        </label>
+
+                        <input
+                            type="text"
+                            id="complemento"
+                            name="complemento"
+                            placeholder="Apartamento, bloco..."
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     RESUMO
+                =============================== -->
+
+                <div class="checkout-resumo">
+
+                    <span class="resumo-label">
+                        RESUMO DO PEDIDO
+                    </span>
+
+                    <div class="resumo-linha">
+                        <span>Itens</span>
+                        <span>{{ carrinho|length }}</span>
+                    </div>
+
+                    <div class="resumo-linha">
+                        <span>Frete</span>
+                        <span>Grátis</span>
+                    </div>
+
+                    <div class="resumo-linha resumo-total">
+
+                        <span>Total</span>
+
+                        <strong>
+                            R$ {{ "%.2f"|format(total)|replace(".", ",") }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="checkout-acao">
+
+                        <button
+                            type="submit"
+                            class="botao-pagar"
+                        >
+                            Continuar para pagamento
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+            <a
+                href="{{ url_for('carrinho') }}"
+                class="voltar-carrinho"
+            >
+                ← Voltar para o carrinho
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

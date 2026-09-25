@@ -1,20 +1,117 @@
 {% extends "layout.html" %}
 
+{% block titulo %}
+Início | Ink & Dreams
+{% endblock %}
+
 {% block conteudo %}
 
-<div class="inicio">
+<section class="inicio">
 
-    <h1>Ink & Dreams ✨</h1>
-    <p>Encontre romances, fantasias e suas próximas leituras favoritas.</p>
-    <img src="{{ url_for('static', filename='imagens/banner.png') }}" class="banner">
-    <br><br>
-    <a href="/login">
-        <button>Entrar</button>
-    </a>
-    <a href="/cadastro">
-        <button>Cadastrar</button>
-    </a>
+    <div class="inicio-conteudo">
 
-</div>
+        <span class="inicio-label">
+            INK & DREAMS
+        </span>
+
+        <p class="subtitulo">
+            SUA PRÓXIMA HISTÓRIA COMEÇA AQUI
+        </p>
+
+        <h1>
+            Histórias que<br>
+            ficam com você.
+        </h1>
+
+        <p class="descricao">
+            Explore romances, fantasias e histórias
+            que podem se tornar suas próximas leituras favoritas.
+        </p>
+
+        <div class="botoes-inicio">
+
+            <a href="{{ url_for('catalogo_livros') }}"
+               class="botao-principal">
+                Explorar livros
+            </a>
+
+            <a href="{{ url_for('login') }}"
+               class="botao-secundario">
+                Entrar
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="inicio-destaque">
+
+        <div class="decoracao">
+
+            <span class="aspas">“</span>
+
+            <p>
+                Um livro é uma porta<br>
+                para outro mundo.
+            </p>
+
+            <span class="linha"></span>
+
+            <small>
+                ENCONTRE SUA PRÓXIMA LEITURA
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="inicio-beneficios">
+
+    <div class="beneficio">
+
+        <span>✦</span>
+
+        <div>
+            <h3>Encontre novos mundos</h3>
+            <p>
+                Descubra romances, fantasias e muito mais.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="beneficio">
+
+        <span>♡</span>
+
+        <div>
+            <h3>Guarde seus favoritos</h3>
+            <p>
+                Monte sua própria coleção de livros.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="beneficio">
+
+        <span>◇</span>
+
+        <div>
+            <h3>Descubra seu próximo livro</h3>
+            <p>
+                Use o quiz literário para encontrar recomendações.
+            </p>
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

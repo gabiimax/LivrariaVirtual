@@ -1,75 +1,906 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block conteudo %}
+    <title>Meu Carrinho | Ink & Dreams</title>
 
-<h1 class="titulo">Meu Carrinho 🛒</h1>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<div class="livros">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
-{% for item in carrinho %}
+    <style>
 
-<div class="card">
+        /* ========================================
+           CONFIGURAÇÃO GERAL
+        ======================================== */
 
-    <img src="{{ url_for('static',
-    filename='imagens/' + item['imagem']) }}">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <div class="card-info">
+        html {
+            scroll-behavior: smooth;
+        }
 
-        <h3>{{ item["titulo"] }}</h3>
+        body {
+            min-height: 100vh;
+            background: #f5efe3;
+            color: #211b18;
+            font-family: 'DM Sans', sans-serif;
+        }
 
-        <p class="autor">
-            {{ item["autor"] }}
-        </p>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-        <p>
 
-            Formato:
+        /* ========================================
+           NAVBAR
+        ======================================== */
 
-            {% if item["formato"] == "capa_comum" %}
-                Capa comum 📖
+        .navbar {
+            width: 100%;
+            height: 76px;
+            background: #4a1822;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+        }
 
-            {% elif item["formato"] == "capa_dura" %}
-                Capa dura ✨
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 25px;
+            font-weight: 700;
+            color: #f5efe3;
+            letter-spacing: -0.5px;
+        }
 
-            {% elif item["formato"] == "ebook" %}
-                Ebook 📱
+        .logo span {
+            color: #c9a45c;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #f5efe3;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.25s;
+        }
+
+        .nav-links a:hover {
+            color: #c9a45c;
+        }
+
+        .nav-links .active {
+            color: #c9a45c;
+        }
+
+
+        /* ========================================
+           CONTEÚDO
+        ======================================== */
+
+        .container {
+            width: 86%;
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 55px 0 80px;
+        }
+
+        .page-header {
+            margin-bottom: 38px;
+        }
+
+        .page-header small {
+            display: block;
+            color: #8b6d3f;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            color: #4a1822;
+            font-size: 42px;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #766d68;
+            font-size: 15px;
+        }
+
+
+        /* ========================================
+           LAYOUT DO CARRINHO
+        ======================================== */
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 30px;
+            align-items: start;
+        }
+
+
+        /* ========================================
+           LISTA DE PRODUTOS
+        ======================================== */
+
+        .cart-products {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-card {
+            background: #fffdf9;
+            border: 1px solid #e5ddd1;
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 92px minmax(0, 1fr) auto;
+            gap: 20px;
+            align-items: center;
+            transition: 0.25s ease;
+        }
+
+        .cart-card:hover {
+            border-color: #d3c3aa;
+            box-shadow: 0 8px 25px rgba(74, 24, 34, 0.06);
+        }
+
+        .book-image {
+            width: 92px;
+            height: 132px;
+            border-radius: 5px;
+            overflow: hidden;
+            background: #eee6da;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+            flex-shrink: 0;
+        }
+
+        .book-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .book-info {
+            min-width: 0;
+        }
+
+        .book-format {
+            display: inline-block;
+            color: #8b6d3f;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            margin-bottom: 7px;
+        }
+
+        .book-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px;
+            font-weight: 600;
+            color: #4a1822;
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .book-author {
+            color: #766d68;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .quantity-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-label {
+            font-size: 12px;
+            color: #8a817b;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d8cec0;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .quantity-control a {
+            width: 31px;
+            height: 31px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a1822;
+            font-size: 18px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .quantity-control a:hover {
+            background: #4a1822;
+            color: #fff;
+        }
+
+        .quantity-number {
+            min-width: 35px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #211b18;
+        }
+
+        .book-price {
+            min-width: 125px;
+            text-align: right;
+        }
+
+        .unit-price {
+            color: #8a817b;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .subtotal {
+            color: #4a1822;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .remove-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            color: #9a7777;
+            font-size: 11px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .remove-button:hover {
+            color: #4a1822;
+        }
+
+
+        /* ========================================
+           RESUMO DA COMPRA
+        ======================================== */
+
+        .summary {
+            background: #4a1822;
+            color: #fff;
+            border-radius: 14px;
+            padding: 28px;
+            position: sticky;
+            top: 25px;
+            box-shadow: 0 12px 35px rgba(74, 24, 34, 0.18);
+        }
+
+        .summary h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 11px 0;
+            color: #dfd2ce;
+            font-size: 13px;
+        }
+
+        .summary-row span:last-child {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.16);
+            margin: 12px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-top: 22px;
+            margin-bottom: 25px;
+        }
+
+        .summary-total span:first-child {
+            color: #e2d7d2;
+            font-size: 14px;
+        }
+
+        .summary-total span:last-child {
+            color: #c9a45c;
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .checkout-button {
+            width: 100%;
+            border: none;
+            border-radius: 7px;
+            padding: 14px 18px;
+            background: #c9a45c;
+            color: #301118;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            display: block;
+            text-align: center;
+        }
+
+        .checkout-button:hover {
+            background: #ddbb73;
+            transform: translateY(-1px);
+        }
+
+        .continue-button {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #e7dcd7;
+            font-size: 12px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .continue-button:hover {
+            color: #c9a45c;
+        }
+
+        .secure-info {
+            border-top: 1px solid rgba(255, 255, 255, 0.13);
+            margin-top: 23px;
+            padding-top: 18px;
+            text-align: center;
+            color: #bcaeaa;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+
+        /* ========================================
+           CARRINHO VAZIO
+        ======================================== */
+
+        .empty-cart {
+            background: #fffdf9;
+            border: 1px solid #e5ddd1;
+            border-radius: 14px;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 25px;
+        }
+
+        .empty-content {
+            max-width: 450px;
+        }
+
+        .empty-icon {
+            width: 70px;
+            height: 70px;
+            border: 1px solid #d8c9b6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 22px;
+            color: #4a1822;
+            font-size: 28px;
+        }
+
+        .empty-content h2 {
+            font-family: 'Playfair Display', serif;
+            color: #4a1822;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .empty-content p {
+            color: #766d68;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .shop-button {
+            display: inline-block;
+            background: #4a1822;
+            color: #fff;
+            padding: 13px 25px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+        .shop-button:hover {
+            background: #641f2d;
+            transform: translateY(-1px);
+        }
+
+
+        /* ========================================
+           RODAPÉ
+        ======================================== */
+
+        footer {
+            border-top: 1px solid #ded4c7;
+            padding: 28px 7%;
+            text-align: center;
+            color: #817771;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #4a1822;
+            font-family: 'Playfair Display', serif;
+        }
+
+
+        /* ========================================
+           RESPONSIVO
+        ======================================== */
+
+        @media (max-width: 950px) {
+
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                position: static;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                height: auto;
+                padding: 20px 6%;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 90%;
+                padding-top: 40px;
+            }
+
+            .page-header h1 {
+                font-size: 34px;
+            }
+
+            .cart-card {
+                grid-template-columns: 75px 1fr;
+                gap: 15px;
+            }
+
+            .book-image {
+                width: 75px;
+                height: 108px;
+            }
+
+            .book-price {
+                grid-column: 2;
+                text-align: left;
+                min-width: 0;
+            }
+
+            .quantity-area {
+                flex-wrap: wrap;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+            .cart-card {
+                padding: 15px;
+            }
+
+            .book-title {
+                font-size: 18px;
+            }
+
+            .summary {
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- ========================================
+         NAVBAR
+    ======================================== -->
+
+    <nav class="navbar">
+
+        <a href="{{ url_for('index') }}" class="logo">
+            Ink & Dreams <span>✦</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('index') }}">
+                Início
+            </a>
+
+            <a
+                href="{{ url_for('catalogo_livros') }}"
+                class="continue-button"
+            >
+                ← Continuar comprando
+            </a>
+
+            <a href="{{ url_for('favoritos') }}">
+                Favoritos
+            </a>
+
+            <a href="{{ url_for('carrinho') }}" class="active">
+                Carrinho
+            </a>
+
+            <a href="{{ url_for('conta') }}">
+                Minha Conta
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ========================================
+         CONTEÚDO
+    ======================================== -->
+
+    <main class="container">
+
+        <header class="page-header">
+
+            <small>Sua seleção</small>
+
+            <h1>Meu carrinho</h1>
+
+            {% if itens %}
+
+                <p>
+                    Revise seus livros antes de finalizar a compra.
+                </p>
+
+            {% else %}
+
+                <p>
+                    Seus próximos mundos favoritos podem começar por aqui.
+                </p>
 
             {% endif %}
 
-        </p>
+        </header>
 
-        <p class="preco">
-            R$ {{ item["preco"] }}
-        </p>
 
-        <a href="/remover_carrinho/{{ item['titulo'] }}">
-            <button>
-                ❌ Remover
-            </button>
-        </a>
+        {% if itens %}
 
-    </div>
+        <!-- ========================================
+             CARRINHO COM PRODUTOS
+        ======================================== -->
 
-</div>
+        <div class="cart-layout">
 
-{% endfor %}
 
-</div>
+            <!-- PRODUTOS -->
 
-<div class="total">
-    Total: R$ {{ total }}
-</div>
+            <section class="cart-products">
 
-<div class="finalizar">
+                {% for item in itens %}
 
-    <a href="/checkout">
+                <article class="cart-card">
 
-        <button>
-            Finalizar Compra 💖
-        </button>
 
-    </a>
+                    <!-- CAPA -->
 
-</div>
+                    <div class="book-image">
 
-{% endblock %}
+                        <img
+                            src="{{ url_for('static', filename='imagens/' + item.imagem) }}"
+                            alt="Capa de {{ item.titulo }}"
+                        >
+
+                    </div>
+
+
+                    <!-- INFORMAÇÕES -->
+
+                    <div class="book-info">
+
+                        <span class="book-format">
+                            {{ item.formato }}
+                        </span>
+
+                        <h2 class="book-title">
+                            {{ item.titulo }}
+                        </h2>
+
+                        <p class="book-author">
+                            {{ item.autor }}
+                        </p>
+
+
+                        <div class="quantity-area">
+
+                            <span class="quantity-label">
+                                Quantidade
+                            </span>
+
+                            <div class="quantity-control">
+
+                                <div class="quantity-control">
+
+                                    <a
+                                        href="{{ url_for('alterar_quantidade', indice=loop.index0, acao='diminuir') }}"
+                                    >
+                                        −
+                                    </a>
+
+                                    <span class="quantity-number">
+                                        {{ item.get('quantidade', 1) }}
+                                    </span>
+
+                                    <a
+                                        href="{{ url_for('alterar_quantidade', indice=loop.index0, acao='aumentar') }}"
+                                    >
+                                        +
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('remover_carrinho', indice=loop.index0) }}"
+                            class="remove-button"
+                        >
+                            Remover do carrinho
+                        </a>
+
+                    </div>
+
+
+                    <!-- PREÇO -->
+
+                    <div class="book-price">
+
+                        <div class="unit-price">
+                            R$ {{ "%.2f"|format(item.preco) }} cada
+                        </div>
+
+                        <div class="subtotal">
+
+                            R$
+                            {{
+                                "%.2f"|format(
+                                    item.preco * item.get('quantidade', 1)
+                                )
+                            }}
+
+                        </div>
+
+                    </div>
+
+
+                </article>
+
+                {% endfor %}
+
+            </section>
+
+
+            <!-- ========================================
+                 RESUMO
+            ======================================== -->
+
+            <aside class="summary">
+
+                <h2>Resumo da compra</h2>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Itens
+                    </span>
+
+                    <span>
+                        {{ quantidade_total }}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span>
+                        R$ {{ "%.2f"|format(total) }}
+                    </span>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Frete
+                    </span>
+
+                    <span>
+                        Grátis
+                    </span>
+
+                </div>
+
+
+                <div class="summary-divider"></div>
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span>
+                        R$ {{ "%.2f"|format(total) }}
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('checkout') }}"
+                    class="checkout-button"
+                >
+                    Finalizar compra
+                </a>
+
+
+                <a
+                    href="{{ url_for('catalogo_livros') }}"
+                    class="continue-button"
+                >
+                    ← Continuar comprando
+                </a>
+
+
+                <div class="secure-info">
+
+                    Compra segura<br>
+                    Seus dados são protegidos durante todo o processo.
+
+                </div>
+
+            </aside>
+
+
+        </div>
+
+
+        {% else %}
+
+        <!-- ========================================
+             CARRINHO VAZIO
+        ======================================== -->
+
+        <section class="empty-cart">
+
+            <div class="empty-content">
+
+                <div class="empty-icon">
+                    ♡
+                </div>
+
+                <h2>
+                    Seu carrinho está vazio
+                </h2>
+
+                <p>
+                    Parece que você ainda não escolheu sua próxima leitura.
+                    Explore nosso catálogo e encontre uma história para levar com você.
+                </p>
+
+                <a
+                    href="{{ url_for('catalogo_livros') }}"
+                    class="shop-button"
+                >
+                    Explorar catálogo
+                </a>
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+    </main>
+
+
+    <!-- ========================================
+         FOOTER
+    ======================================== -->
+
+    <footer>
+
+        <strong>Ink & Dreams</strong>
+
+        © 2026 · Encontre romances, fantasias e suas próximas leituras favoritas.
+
+    </footer>
+
+
+</body>
+</html>

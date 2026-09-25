@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block titulo %}
+Gêneros | Ink & Dreams
+{% endblock %}
+
+{% block conteudo %}
+
+<section class="pagina-generos">
+
+    <div class="generos-header">
+
+        <span class="generos-label">
+            ENCONTRE SUA PRÓXIMA HISTÓRIA
+        </span>
+
+        <h1>Explore por gênero</h1>
+
+        <p>
+            Escolha um gênero e descubra histórias que podem
+            se tornar suas próximas leituras favoritas.
+        </p>
+
+    </div>
+
+
+    <div class="generos-grid">
+
+        {% for genero in generos %}
+
+        <a
+            href="{{ url_for('genero', genero=genero) }}"
+            class="card-genero"
+        >
+
+            <div class="icone-genero">
+
+                {% if genero.lower() == "romance" %}
+                    ♡
+
+                {% elif genero.lower() == "fantasia" %}
+                    ✦
+
+                {% elif genero.lower() == "terror" %}
+                    ☾
+
+                {% elif genero.lower() == "suspense" %}
+                    ◈
+
+                {% elif genero.lower() == "distópia e romance" %}
+                    ◇
+
+                {% elif genero.lower() == "romance e fantasia" %}
+                    ✧
+
+                {% elif genero.lower() == "fantasia e romance" %}
+                    ✦
+
+                {% else %}
+                    ✧
+                {% endif %}
+
+            </div>
+
+            <div class="genero-conteudo">
+
+                <h2>{{ genero }}</h2>
+
+                <span>
+                    Explorar livros
+                    <strong>→</strong>
+                </span>
+
+            </div>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

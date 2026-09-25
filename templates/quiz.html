@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block titulo %}
+Quiz Literário | Ink & Dreams
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="quiz-container">
+
+    <div class="quiz-cabecalho">
+
+        <small>QUIZ LITERÁRIO</small>
+
+        <h1>Descubra sua próxima leitura</h1>
+
+        <p>
+            Responda algumas perguntas e descubra quais livros
+            combinam com os seus gostos literários.
+        </p>
+
+    </div>
+
+    <form method="POST">
+
+        {% for pergunta in perguntas %}
+
+        <div class="pergunta">
+
+            <h2>
+                {{ loop.index }}. {{ pergunta.pergunta }}
+            </h2>
+
+            {% for opcao in pergunta.opcoes %}
+
+            <label>
+
+                <input
+                    type="radio"
+                    name="{{ pergunta.categoria }}"
+                    value="{{ opcao.valor }}"
+                    required
+                >
+
+                {{ opcao.texto }}
+
+            </label>
+
+            {% endfor %}
+
+        </div>
+
+        {% endfor %}
+
+        <button type="submit" class="botao-finalizar-quiz">
+            Descobrir meu livro
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

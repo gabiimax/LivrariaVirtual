@@ -1,32 +1,127 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Ink & Dreams</title>
 
-     <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %}Ink & Dreams{% endblock %}</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='estilos.css') }}"
+    >
+
 </head>
+
 
 <body>
 
-<nav>
-    <a href="/">Início</a>
-    <a href="/catalogo">Catálogo</a>
-    <a href="/favoritos">Favoritos</a>
-    <a href="/carrinho">Carrinho</a>
-    <a href="/conta">Minha Conta</a>
-</nav>
+    <header class="navbar">
 
-{% block conteudo %}
-{% endblock %}
+        <div class="navbar-conteudo">
 
-{% if usuario and usuario.is_admin %}
-<a href="/admin">Painel Admin</a>
-{% endif %}
+            <a href="/" class="logo">
 
-<footer>
-    Ink & Dreams © 2026
-</footer>
+                <span class="logo-principal">
+                    INK & DREAMS
+                </span>
+
+                <span class="logo-subtitulo">
+                    BOOKS · STORIES · DREAMS
+                </span>
+
+            </a>
+
+
+            <nav>
+
+                <a href="/">Início</a>
+
+                <a href="/catalogo">Catálogo</a>
+
+                <a href="/generos">Gêneros</a>
+
+                <a href="/favoritos">Favoritos</a>
+
+                <a href="/conquistas">Conquistas</a>
+
+                <a href="/carrinho">Carrinho</a>
+
+                <a href="/conta">Minha Conta</a>
+
+
+                {% if usuario %}
+
+                    {% if usuario.is_admin %}
+
+                        <a href="/admin" class="admin-link">
+                            Admin
+                        </a>
+
+                    {% endif %}
+
+                {% endif %}
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        {% block conteudo %}
+        {% endblock %}
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="footer-conteudo">
+
+            <div>
+
+                <h2>INK & DREAMS</h2>
+
+                <p>
+                    Entre páginas, encontre novos mundos.
+                </p>
+
+            </div>
+
+
+            <div class="footer-final">
+
+                <span>
+                    Ink & Dreams © 2026
+                </span>
+
+                <span>
+                    Feito para quem ama histórias.
+                </span>
+
+            </div>
+
+        </div>
+
+    </footer>
+
 
 </body>
+
 </html>

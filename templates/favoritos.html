@@ -2,27 +2,121 @@
 
 {% block conteudo %}
 
-<h1 class="titulo">Meus Favoritos ❤️</h1>
-<div class="livros">
+<section class="favoritos-page">
 
-    {% for livro in favoritos %}
-    <div class="card">
-        <img src="{{ url_for('static', filename='imagens/' + livro.imagem) }}"
-             alt="{{ livro.titulo }}">
-        <h3>{{ livro.titulo }}</h3>
-        <p>{{ livro.autor }}</p>
-        <p>R$ {{ livro.preco }}</p>
-        <a href="/adicionar_carrinho/{{ livro.titulo }}">
-            <button>Adicionar ao carrinho 🛒</button>
-        </a>
+    <div class="favoritos-header">
+        <div>
+            <span class="favoritos-label">SUA ESTANTE</span>
+            <h1 class="titulo">Meus Favoritos</h1>
+            <p class="favoritos-subtitulo">
+                Os livros que você guardou para ler depois.
+            </p>
+        </div>
 
-        <a href="/remover_favorito/{{ livro.titulo }}">
-            <button>Remover ❌</button>
+        <div class="favoritos-count">
+            <span>{{ favoritos|length }}</span>
+            <small>
+                {% if favoritos|length == 1 %}
+                    livro salvo
+                {% else %}
+                    livros salvos
+                {% endif %}
+            </small>
+        </div>
+    </div>
+
+
+    {% if favoritos %}
+
+    <div class="livros favoritos-grid">
+
+        {% for livro in favoritos %}
+
+        <article class="livro-card">
+
+            <div class="livro-capa">
+
+                <img
+                    src="{{ url_for('static', filename='imagens/' + livro.imagem) }}"
+                    alt="Capa de {{ livro.titulo }}"
+                >
+
+                <a
+                    href="/remover_favorito/{{ livro.titulo }}"
+                    class="remover-favorito"
+                    title="Remover dos favoritos"
+                >
+                    ♥
+                </a>
+
+            </div>
+
+
+            <div class="livro-info">
+
+                <span class="livro-genero">
+                    {{ livro.genero }}
+                </span>
+
+                <h2>{{ livro.titulo }}</h2>
+
+                <p class="livro-autor">
+                    {{ livro.autor }}
+                </p>
+
+                <div class="livro-preco">
+                    R$ {{ "%.2f"|format(livro.preco) }}
+                </div>
+
+
+                <div class="livro-acoes">
+
+                    <a
+                        href="/livro/{{ livro.titulo }}"
+                        class="btn-detalhes"
+                    >
+                        Ver detalhes
+                    </a>
+
+                    <a
+                        href="/adicionar_carrinho/{{ livro.titulo }}"
+                        class="btn-carrinho"
+                    >
+                        🛒 Adicionar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+    <div class="favoritos-vazio">
+
+        <div class="icone-vazio">♡</div>
+
+        <h2>Sua estante está vazia</h2>
+
+        <p>
+            Explore nosso catálogo e salve os livros que você
+            gostaria de ler.
+        </p>
+
+        <a href="{{ url_for('catalogo_livros') }}" class="btn-explorar">
+            Explorar catálogo
         </a>
 
     </div>
-    {% endfor %}
 
-</div>
+    {% endif %}
+
+</section>
 
 {% endblock %}

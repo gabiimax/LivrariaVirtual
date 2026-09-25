@@ -1,86 +1,168 @@
 {% extends "layout.html" %}
 
+{% block titulo %}
+Catálogo | Ink & Dreams
+{% endblock %}
+
 {% block conteudo %}
 
-<h1 class="titulo">Catálogo de Livros</h1>
+<section class="catalogo-page">
 
-<!-- BARRA DE PESQUISA -->
-<div class="pesquisa">
+    <!-- CABEÇALHO -->
 
-    <form action="/pesquisa" method="GET">
+    <div class="catalogo-header">
 
-        <input 
-            type="text"
-            name="livro"
-            placeholder="🔍 Pesquise por livros ou autores"
-        >
+        <span class="catalogo-label">
+            INK & DREAMS
+        </span>
 
-        <button type="submit">
-            Pesquisar
-        </button>
+        <h1>Catálogo de Livros</h1>
 
-    </form>
+        <p>
+            Encontre romances, fantasias e histórias para sua próxima leitura.
+        </p>
 
-</div>
+    </div>
 
-<!-- CARDS -->
-<div class="livros">
 
-    {% for livro in livros %}
+    <!-- PESQUISA -->
 
-    <div class="card">
+    <div class="pesquisa">
 
-        <img src="{{ url_for('static', filename='imagens/' + livro.imagem) }}">
+        <form action="{{ url_for('pesquisa') }}" method="GET">
 
-        <div class="card-info">
+            <input
+                type="text"
+                name="livro"
+                placeholder="Pesquise por livros ou autores..."
+            >
 
-            <h3>{{ livro.titulo }}</h3>
+            <button type="submit">
+                Pesquisar
+            </button>
 
-            <p class="autor">
-                {{ livro.autor }}
+        </form>
+
+    </div>
+
+
+    <!-- QUIZ -->
+
+    <section class="banner-quiz">
+
+        <div class="banner-quiz-texto">
+
+            <small>QUIZ LITERÁRIO</small>
+
+            <h2>Não sabe o que ler?</h2>
+
+            <p>
+                Responda algumas perguntas e descubra quais livros
+                combinam com os seus gostos literários.
             </p>
 
-            <p class="preco">
-                R$ {{ livro.preco }}
-            </p>
-
-            <form action="/adicionar_carrinho/{{ livro.titulo }}" method="GET">
-
-                <div class="opcoes">
-
-                    <label>
-                        <input type="radio" name="formato" value="comum" checked>
-                        Comum
-                    </label>
-
-                    <label>
-                        <input type="radio" name="formato" value="dura">
-                        Dura
-                    </label>
-
-                    <label>
-                        <input type="radio" name="formato" value="ebook">
-                        Ebook
-                    </label>
-
-                </div>
-
-                <button class="btn-comprar">
-                    🛒 Comprar
-                </button>
-
-            </form>
-
-            <a class="fav" href="/favoritar/{{ livro.titulo }}">
-                ❤️ Favoritar
+            <a
+                href="{{ url_for('quiz') }}"
+                class="botao-quiz"
+            >
+                Fazer o quiz
             </a>
 
         </div>
 
+    </section>
+
+
+    <!-- LIVROS -->
+
+    <div class="catalogo-topo">
+
+        <div>
+            <h2>Todos os livros</h2>
+            <p>
+                {{ livros|length }}
+                {% if livros|length == 1 %}
+                    livro disponível
+                {% else %}
+                    livros disponíveis
+                {% endif %}
+            </p>
+        </div>
+
     </div>
 
-    {% endfor %}
 
-</div>
+    <div class="livros">
+
+        {% for livro in livros %}
+
+        <article class="card">
+
+            <!-- CAPA -->
+
+            <a
+                href="{{ url_for('pagina_livro', titulo=livro.titulo) }}"
+                class="capa-link"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='imagens/' + livro.imagem) }}"
+                    alt="Capa de {{ livro.titulo }}"
+                    style="width: 100%; height: 330px; object-fit: contain; display: block;"
+                >
+
+            </a>
+
+
+            <!-- INFORMAÇÕES -->
+
+            <div class="card-info">
+
+                <a
+                    href="{{ url_for('pagina_livro', titulo=livro.titulo) }}"
+                    class="link-titulo"
+                >
+
+                    <h3>
+                        {{ livro.titulo }}
+                    </h3>
+
+                </a>
+
+
+                <p class="autor">
+                    {{ livro.autor }}
+                </p>
+
+
+                <p class="preco">
+                    R$ {{ "%.2f"|format(livro.preco)|replace(".", ",") }}
+                </p>
+
+
+                <a
+                    href="{{ url_for('pagina_livro', titulo=livro.titulo) }}"
+                    class="btn-ver-livro"
+                >
+                    Ver detalhes
+                </a>
+
+
+                <a
+                    class="fav"
+                    href="{{ url_for('favoritar', titulo=livro.titulo) }}"
+                >
+                    ♡ Adicionar aos favoritos
+                </a>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
 
 {% endblock %}
