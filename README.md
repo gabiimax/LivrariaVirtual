@@ -1,2 +1,2 @@
 # LivrariaVirtual
-Aula de POOS - Projeto de Livraria Virtual
+Aula de PWD- Projeto de Livraria Virtual
